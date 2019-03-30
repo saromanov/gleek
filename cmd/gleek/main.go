@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/saromanov/gleek/config"
+	"github.com/saromanov/gleek/internal/server"
 	"github.com/saromanov/gleek/internal/storage"
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
@@ -18,6 +19,7 @@ func run(c *config.Config) error {
 	}
 	fmt.Println(st)
 	defer st.Close()
+	server.New(st, c)
 	return nil
 }
 
