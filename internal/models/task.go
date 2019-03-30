@@ -13,5 +13,5 @@ type Task struct {
 	Priority uint
 	Start    time.Time
 	Duration time.Duration
-	Tags     []*Tag
+	Tags     []Tag `gorm:"many2many:user_languages;"`
 }

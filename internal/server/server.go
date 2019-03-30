@@ -32,8 +32,18 @@ func (s *server) createTask(w http.ResponseWriter, r *http.Request) {
 	account := &pb.Task{}
 	err := json.NewDecoder(r.Body).Decode(account)
 	if err != nil {
-		return
+		panic(err)
 	}
+	s.st.CreateTask(account)
+
+	w.WriteHeader(http.StatusCreated)
+}
+
+// getTask returns task by id
+func (s *server) getTask(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	s.st.GetTask(1)
+
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -45,6 +55,7 @@ func (s *server) makeHandlers() {
 
 	s.router.Group(func(r chi.Router) {
 		r.Post("/v1/tasks", s.createTask)
+		r.Get("/v1/tasks/{id}", s.getTask)
 	})
 }
 
