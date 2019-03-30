@@ -1,6 +1,8 @@
 package models
 
 import (
+	"time"
+
 	"github.com/jinzhu/gorm"
 )
 
@@ -9,4 +11,7 @@ type Task struct {
 	gorm.Model
 	Name     string
 	Priority uint
+	Start    time.Time
+	Duration time.Duration
+	Tags     []*Tag
 }
