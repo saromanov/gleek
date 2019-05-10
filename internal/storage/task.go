@@ -3,6 +3,8 @@ package storage
 import (
 	"fmt"
 
+	//"github.com/jinzhu/gorm"
+	//"github.com/jinzhu/gorm"
 	"github.com/pkg/errors"
 	"github.com/saromanov/gleek/internal/models"
 	pb "github.com/saromanov/gleek/proto"
@@ -20,7 +22,7 @@ func (s *Storage) CreateTask(t *pb.Task) (uint, error) {
 		}
 	}
 	task.Tags = tags
-	err := s.db.Create(task).Error
+	err := s.db.Debug().Create(task).Error
 	if err != nil {
 		return 0, errors.Wrap(err, "storage: unable to insert user")
 	}
@@ -29,14 +31,20 @@ func (s *Storage) CreateTask(t *pb.Task) (uint, error) {
 
 // GetTask provides provides getting of the task
 func (s *Storage) GetTask(id uint) (*models.Task, error) {
-	var tags []models.Tag
-	task := &models.Task{}
-	err := s.db.First(&task, "id = ?", id).Error
+	//var tags []models.Tag
+	tasks := []*models.Task{}
+	/*err := s.db.First(&task, "id = ?", id).Error
 	if err != nil {
 		panic(err)
+	}*/
+
+	/*s.db.Debug().Preload("Tags", func(db *gorm.DB) *gorm.DB {
+		return db.Select("name").Where("name = ? OR name = ?", "lang", "ci").Order("name DESC")
+	}).Find(&tasks)*/
+	s.db.Debug().Table("task_tags").Select("*").Joins("inner join tags on task_tags.tag_id = tags.id").Where("tags.name = ?", "lang").Find(&tasks)
+	//s.db.Model(&task).Related(&tags, "Tags")
+	for _, ta := range tasks {
+		fmt.Println(ta)
 	}
-	s.db.Model(&task).Related(&tags, "Tags")
-	fmt.Println(tags)
-	fmt.Println(task)
-	return task, nil
+	return nil, nil
 }

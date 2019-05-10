@@ -7,5 +7,5 @@ import (
 // Tag defines tag model
 type Tag struct {
 	gorm.Model
-	Name string
+	Name string `gorm:"not null;unique"`
 }

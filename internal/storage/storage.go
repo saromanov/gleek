@@ -29,7 +29,7 @@ func New(s *config.Config) (*Storage, error) {
 	if s.Name == "" || s.Password == "" || s.User == "" {
 		return nil, errNoCreds
 	}
-	args := "dbname=gleek"
+	args := "dbname=gleek2"
 	if s.Name != "" && s.Password != "" && s.User != "" {
 		args += fmt.Sprintf(" user=%s dbname=%s password=%s", s.User, s.Name, s.Password)
 	}
