@@ -5,8 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	"github.com/jmoiron/sqlx"
 	"github.com/saromanov/gleek/config"
 	"github.com/saromanov/gleek/internal/models"
 )
@@ -18,7 +17,7 @@ var (
 
 // Storage implements db handling with Postgesql
 type Storage struct {
-	db *gorm.DB
+	db *sqlx.DB
 }
 
 // New provides init for postgesql storage
@@ -33,12 +32,10 @@ func New(s *config.Config) (*Storage, error) {
 	if s.Name != "" && s.Password != "" && s.User != "" {
 		args += fmt.Sprintf(" user=%s dbname=%s password=%s", s.User, s.Name, s.Password)
 	}
-	db, err := gorm.Open("postgres", args)
-	if err != nil {
-		return nil, fmt.Errorf("unable to open db: %v", err)
-	}
-	db.AutoMigrate(&models.Tag{})
-	db.AutoMigrate(&models.Task{})
+	db, err := sqlx.Connect("postgres", args)
+    if err != nil {
+        log.Fatalln(err)
+    }
 	return &Storage{
 		db: db,
 	}, nil
