@@ -4,10 +4,10 @@ package storage
 import (
 	"errors"
 	"fmt"
+	"log"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/saromanov/gleek/config"
-	"github.com/saromanov/gleek/internal/models"
 )
 
 var (
@@ -33,9 +33,9 @@ func New(s *config.Config) (*Storage, error) {
 		args += fmt.Sprintf(" user=%s dbname=%s password=%s", s.User, s.Name, s.Password)
 	}
 	db, err := sqlx.Connect("postgres", args)
-    if err != nil {
-        log.Fatalln(err)
-    }
+	if err != nil {
+		log.Fatalln(err)
+	}
 	return &Storage{
 		db: db,
 	}, nil
