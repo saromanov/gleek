@@ -7,6 +7,7 @@ import (
 	"log"
 
 	"github.com/jmoiron/sqlx"
+	_ "github.com/lib/pq"
 	"github.com/saromanov/gleek/config"
 )
 
