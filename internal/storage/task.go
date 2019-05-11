@@ -9,14 +9,14 @@ import (
 )
 
 // CreateTask provides inserting of the task
-func (s *Storage) CreateTask(t *pb.Task) (uint, error) {
+func (s *Storage) CreateTask(t *pb.Task) (int64, error) {
 	result, err := s.db.Exec(taskSchema)
 	if err != nil {
 		return 0, errors.Wrap(err, "unable to execute task schema")
 	}
-	newTask := `INSERT INTO tasks (created_at, name, priority, start, duration) VALUES (?, ?, ?, ?, ?, ?)`
-	s.db.MustExec(newTask, time.Now().UTC(), t.Name, t.Priority, t.Start, t.DUration).Result()
-	return 0, nil
+	newTask := `INSERT INTO tasks (created_at, name, priority, duration) VALUES (?, ?, ?, ?, ?, ?)`
+	s.db.MustExec(newTask, time.Now().UTC(), t.Name, t.Priority, t.Duration)
+	return result.LastInsertId()
 }
 
 // GetTask provides provides getting of the task
