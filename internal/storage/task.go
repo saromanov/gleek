@@ -21,5 +21,10 @@ func (s *Storage) CreateTask(t *pb.Task) (int64, error) {
 
 // GetTask provides provides getting of the task
 func (s *Storage) GetTask(id uint) (*models.Task, error) {
-	return nil, nil
+	task := models.Task{}
+	err := s.db.Get(&task, "SELECT * FROM tasks WHERE id=? LIMIT 1", id)
+	if err != nil {
+		return nil, errors.Wrap(err, "unable to get task")
+	}
+	return &task, nil
 }
