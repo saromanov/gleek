@@ -1,4 +1,4 @@
-// Package server defines rest api endpoints for pinger
+// Package server defines rest api endpoints for gleek
 package server
 
 import (
@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strconv"
 	"time"
 
 	"github.com/go-chi/chi"
@@ -48,10 +49,9 @@ func (s *server) getTask(w http.ResponseWriter, r *http.Request) {
 	}
 	parsedInt, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		writeErrorResponse(w, err.Error())
 		return
 	}
-	s.st.GetTask(parsedInt)
+	s.st.GetTask(uint(parsedInt))
 
 	w.WriteHeader(http.StatusCreated)
 }
