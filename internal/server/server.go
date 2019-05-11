@@ -42,7 +42,16 @@ func (s *server) createTask(w http.ResponseWriter, r *http.Request) {
 // getTask returns task by id
 func (s *server) getTask(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	s.st.GetTask(1)
+	id := chi.URLParam(r, "id")
+	if id == "" {
+		return
+	}
+	parsedInt, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		writeErrorResponse(w, err.Error())
+		return
+	}
+	s.st.GetTask(parsedInt)
 
 	w.WriteHeader(http.StatusCreated)
 }
