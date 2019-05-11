@@ -40,7 +40,7 @@ func parseConfig(path string) (*config.Config, error) {
 
 func main() {
 	app := cli.NewApp()
-	app.Name = "pinger"
+	app.Name = "gleek"
 	app.Usage = "checking of availability of sites"
 	app.Commands = []cli.Command{
 		{
