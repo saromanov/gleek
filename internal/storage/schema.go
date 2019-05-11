@@ -1,7 +1,7 @@
 package storage
 
-var schema = `
-CREATE TABLE Task (
+var taskSchema = `
+CREATE TABLE tasks (
 	id int8 PRIMARY KEY,
 	created_at timestampz NOT NULL,
 	name text,
