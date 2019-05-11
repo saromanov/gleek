@@ -3,7 +3,8 @@ syntax = "proto3";
 message Task {
     string id = 1;
     string name = 2;
-    repeated Tag tags = 3;
+    int32 priority = 3;
+    string duration = 4;
 }
 
 message Tag {
