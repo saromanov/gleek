@@ -1,17 +1,13 @@
 package models
 
-import (
-	"time"
-
-	"github.com/jinzhu/gorm"
-)
+import "time"
 
 // Task defines task model
 type Task struct {
-	gorm.Model
-	Name     string
-	Priority uint
-	Start    time.Time
-	Duration time.Duration
-	Tags     []Tag `gorm:"many2many:task_tags;omitempty"`
+	ID        int64
+	CreatedAt time.Time     `db:"created_at"`
+	Name      string        `db:"name"`
+	Priority  uint          `db:"priority"`
+	Start     time.Time     `db:"start"`
+	Duration  time.Duration `db:"duration"`
 }
